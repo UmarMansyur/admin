@@ -11,17 +11,21 @@
           <div>
             <label for="email" class="text-sm mb-2 dark:text-white hidden">Email</label>
             <div class="relative">
-              <input type="email" id="email" name="email" class="form-control border-1" required placeholder="Masukkan email anda" v-model="email" :class="{ 'form-control-failed': emailError }" />
+              <input type="email" id="email" name="email" class="form-control border-1" required
+                placeholder="Masukkan email anda" v-model="email" :class="{ 'form-control-failed': emailError }" />
               <div v-if="emailError" class="pt-2 text-xs text-red-500">{{ emailError }}</div>
             </div>
           </div>
           <div>
             <label for="password" class="text-sm dark:text-white hidden">Nomor</label>
-            <input type="password" id="password" name="password" class="form-control border-1" required placeholder="Masukkan password anda" v-model="password" :class="{ 'form-control-failed': passwordError }" />
+            <input type="password" id="password" name="password" class="form-control border-1" required
+              placeholder="Masukkan password anda" v-model="password"
+              :class="{ 'form-control-failed': passwordError }" />
             <div v-if="passwordError" class="pt-2 text-xs text-red-500">{{ passwordError }}</div>
           </div>
           <button type="button"
-            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-primary focus:outline-none focus:divide-opacity-95 disabled:opacity-50" :disabled="!meta.valid" @click="tryLogin">
+            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-primary focus:outline-none focus:divide-opacity-95 disabled:opacity-50"
+            :disabled="!meta.valid" @click="tryLogin">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-4">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -46,6 +50,9 @@
 import { useField, useForm } from "vee-validate";
 import Layout from "./Layout.vue";
 import * as yup from 'yup';
+import useNotify from "../../composables/notify";
+
+const { notifySuccess, notifyError } = useNotify();
 
 const schema = yup.object().shape({
   email: yup.string()
@@ -82,11 +89,12 @@ const tryLogin = async () => {
       }),
     });
     const data = await response.json();
-    if(!response.ok) {
+    if (!response.ok) {
       throw new Error(data.message || 'Something went wrong!');
     }
-  } catch (error) {
-    console.error(error);
+    notifySuccess(data.message);
+  } catch (error: any) {
+    notifyError(error.message);
   }
 }
 

@@ -11,8 +11,10 @@
   "dependencies": {
     "flowbite": "^2.5.1",
     "install": "^0.13.0",
+    "metismenu": "^3.0.7",
     "npm": "^10.8.3",
     "pinia": "^2.2.2",
+    "simplebar": "^6.2.7",
     "vee-validate": "^4.13.2",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3",

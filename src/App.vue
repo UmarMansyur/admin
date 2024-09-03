@@ -1,15 +1,36 @@
 <template>
-  <div class="hidden" id="notify-alert">
-    <Success></Success>
-  </div>
+  <Notification></Notification>
   <RouterView> </RouterView>
 </template>
 
 <script setup lang="ts">
-import Success from './components/Notification/Success.vue'
+import Notification from './components/Notification/Notification.vue';
 import { onMounted } from "vue";
-import { initFlowbite } from "flowbite";
+import {
+  initAccordions,
+  initCarousels,
+  initCollapses,
+  initDials,
+  initDismisses,
+  initDrawers,
+  initDropdowns,
+  initModals,
+  initPopovers,
+  initTabs,
+  initTooltips, initFlowbite
+} from 'flowbite';
 onMounted(() => {
+  initAccordions();
+  initCarousels();
+  initCollapses();
+  initDials();
+  initDismisses();
+  initDrawers();
+  initDropdowns();
+  initModals();
+  initPopovers();
+  initTabs();
+  initTooltips();
   initFlowbite();
 });
 </script>
