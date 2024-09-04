@@ -9,7 +9,12 @@ export default {
     extend: {
       colors: {
         primary: '#3B19CC',
-        light: '#EFEFEF'
+        sidebar: '#5b6b79',
+        warning: '#FFD700',
+        danger: '#FF6347',
+        success: '#32CD32',
+        info: '#1E90FF',
+        light: '#A9A9A9',
       }
     },
   },

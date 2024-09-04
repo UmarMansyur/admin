@@ -1,11 +1,11 @@
 <template>
   <aside id="sidebar-menu-admin"
-    class="fixed top-0 left-0 z-40 w-72 h-screen pt-[70px] -translate-x-full bg-white border-r border-b border-gray-200 sm:translate-x-0 transition-all duration-300 ease-in-out"
+    class="fixed top-0 left-0 z-40 w-72 h-screen pt-[70px] -translate-x-full bg-white border-r border-b border-gray-200 sm:translate-x-0 transition-all duration-300 ease-in-out text-sm"
     >
     <div
-      class="h-full px-3 pb-4 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 pt-3 mt-5 text-neutral-400 bg-white">
+      class="h-full px-3 pb-4 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 pt-8 text-neutral-400 bg-white">
       <ul class="space-y-2">
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Menu
         </li>
         <li class="hover:bg-primary hover:text-white rounded-lg py-3">
@@ -19,7 +19,7 @@
             <span class="ms-3">Dashboard</span>
           </a>
         </li>
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Collaboration
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -42,7 +42,7 @@
             <span class="ms-3">Partner</span>
           </a>
         </li>
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Marketing
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -75,7 +75,7 @@
             <span class="ms-3">KOL Campaign</span>
           </a>
         </li>
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Recommendation
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -98,7 +98,7 @@
             <span class="ms-3">KOL Recommendation</span>
           </a>
         </li>
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Communication
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -111,11 +111,11 @@
             <span class="ms-3">Blast Message</span>
           </a>
         </li>
-        <li class="text-gray-400 uppercase text-[11px]">
+        <li class="text-sidebar uppercase text-[11px]">
           Configuration
         </li>
-        <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
-          <a href="#" class="has-arrow flex items-center px-3 rounded-lg group" aria-expanded="false">
+        <li class="hover:bg-primary rounded-lg py-3 hover:text-white" :class="{ 'bg-primary text-white': $route.path === '/admin/setting' }">
+          <RouterLink to="/admin/setting" class="has-arrow flex items-center px-3 rounded-lg group" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-5">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -124,7 +124,7 @@
             </svg>
 
             <span class="ms-3">Setting</span>
-          </a>
+          </RouterLink>
         </li>
       </ul>
     </div>

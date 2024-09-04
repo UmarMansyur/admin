@@ -51,6 +51,7 @@ import { useField, useForm } from "vee-validate";
 import Layout from "./Layout.vue";
 import * as yup from 'yup';
 import useNotify from "../../composables/notify";
+import router from '../../router';
 
 const { notifySuccess, notifyError } = useNotify();
 
@@ -92,6 +93,8 @@ const tryLogin = async () => {
     if (!response.ok) {
       throw new Error(data.message || 'Something went wrong!');
     }
+    sessionStorage.setItem('token', data.data.access_token);
+    router.push('/admin/dashboard');
     notifySuccess(data.message);
   } catch (error: any) {
     notifyError(error.message);

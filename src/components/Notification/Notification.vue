@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed max-w-xs w-full items-center p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-md shadow top-5 right-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+    class="fixed max-w-xs w-full items-center p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-md shadow top-5 right-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 z-[1000]"
     role="alert" :class="{ hidden: !notify?.message && !notify?.type, flex: notify?.message && notify?.type }">
     <div class="flex space-x-5 items-center" v-if="notify?.type === 'success'">
       <div>
@@ -60,6 +60,7 @@ const { notify } = useNotify();
 
 watch(notify, (value) => {
   if(value.message) {
+    console.log(value.message);
     setTimeout(() => {
       notify.$reset();
     }, 3000);
