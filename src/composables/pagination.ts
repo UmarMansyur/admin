@@ -10,6 +10,7 @@ export default function usePagination(path: string, q?:any ,query?: any) {
   const limitPage = ref<number>(10);
   const totalData = ref<number>(0);
   const startNumber = ref<number>(0);
+  const endNumber = ref<number>(0);
 
   async function nextPage() {
     if (currentPage.value < totalPage.value) {
@@ -69,12 +70,14 @@ export default function usePagination(path: string, q?:any ,query?: any) {
       query.push(`${path}?page=${currentPage.value}&paginate=${limitPage.value}`);
     }
     const response:any = await getResource(query[0]);
+    console.log(response.data.data.current);
     result.value = response.data.data;
     totalPage.value = response.data.total;
     totalData.value = Math.ceil(response.data.total / limitPage.value);
     currentPage.value = Number(response.data.current_page);
     generateButtons();
     startNumber.value = (currentPage.value - 1) * limitPage.value + 1;
+    endNumber.value = totalData.value
   }
 
 
@@ -130,7 +133,8 @@ export default function usePagination(path: string, q?:any ,query?: any) {
     search,
     isLastPage,
     isFirstPage,
-    fetchData
+    fetchData,
+    endNumber
   }
 
 }

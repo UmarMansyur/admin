@@ -13,8 +13,9 @@
   <Modal modal-id="modal-social-media" title="Tambah/Ubah Sosial Media">
     <label for="social-media" class="block text-sm mb-3">Sosial Media: </label>
     <input type="text" id="social-media" name="social-media" class="form-control"
-      placeholder="Masukkan nama sosial media" v-model="social_media" :class="{ 'form-control-failed': social_media_meta.errors.join(', ') }" />
-      <span class="text-sm text-danger py-1" v-if="social_media_meta.errors">{{ social_media_meta.errors.join(', ') }}</span>
+      placeholder="Masukkan nama sosial media" v-model="social_media"
+      :class="{ 'form-control-failed': social_media_message }" />
+    <span class="text-sm text-danger py-1" v-if="social_media_message">{{ social_media_message }}</span>
     <div class="flex justify-between">
       <button type="button" class="bg-light text-white rounded-lg p-3 mt-3" @click="closeModal">
         <i class="bx bx-x"></i> Batal
@@ -51,18 +52,11 @@
               <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead class="bg-gray-50 dark:bg-neutral-700">
                   <tr>
-                    <th scope="col" class="py-3 px-4 pe-0">
-                      <div class="flex items-center h-5">
-                        <input id="hs-table-pagination-checkbox-all" type="checkbox"
-                          class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                        <label for="hs-table-pagination-checkbox-all" class="sr-only">Checkbox</label>
-                      </div>
-                    </th>
                     <th scope="col"
                       class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                       Sosial Media</th>
                     <th scope="col"
-                      class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                      class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                       Status</th>
                     <th scope="col"
                       class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
@@ -70,17 +64,23 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-                  <tr>
-                    <td class="py-3 ps-4">
-                      <div class="flex items-center h-5">
-                        <input id="hs-table-pagination-checkbox-1" type="checkbox"
-                          class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                        <label for="hs-table-pagination-checkbox-1" class="sr-only">Checkbox</label>
-                      </div>
+                  <tr class="bg-white dark:bg-neutral-800" v-for="(item, i) in result" :key="item.id">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      {{ startNumber + i }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      John Brown</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">45</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      {{ item.name }}
+                    </td>
+                    <td class="px-6 py-4 flex whitespace-nowrap text-sm font-medium ">
+                      <span
+                        class="inline-flex mx-auto items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium" :class="{
+                          'bg-green-100 text-green-800': item.status === 1,
+                          'bg-red-100 text-red-800': item.status === 0
+                        }">
+                        <span class="size-1.5 inline-block rounded-full" :class="item.status === 1 ? 'bg-green-500' : 'bg-red-500'"></span>
+                        {{ item.status === 1 ? 'Aktif' : 'Tidak Aktif' }}
+                      </span>
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                       <button type="button"
                         class="inline-flex items-center gap-x-2 me-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-warning">
@@ -104,39 +104,9 @@
               </table>
             </div>
             <div class="flex p-4 text-end">
-              <!-- Pagination -->
-              <nav class="flex items-center gap-x-1 ms-auto" aria-label="Pagination">
-                <button type="button"
-                  class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-                  aria-label="Previous" disabled="">
-                  <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m15 18-6-6 6-6"></path>
-                  </svg>
-                  <span>Previous</span>
-                </button>
-                <div class="flex items-center gap-x-1">
-                  <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500"
-                    aria-current="page">1</button>
-                  <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">2</button>
-                  <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">3</button>
-                </div>
-                <button type="button"
-                  class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-                  aria-label="Next">
-                  <span>Next</span>
-                  <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </button>
-              </nav>
-              <!-- End Pagination -->
+              <Pagination :limit="limit" :next-page="nextPage" :prev-page="prevPage" :pages="pageList"
+                :total="totalData" :current-page="currentPage" :go-to-page="goToPage" :last-page="totalPage"
+                :first-page="startNumber" :start-data="startNumber" :end-data="endNumber" v-if="result.length > 0" />
             </div>
           </div>
         </div>
@@ -152,8 +122,33 @@ import { toggleModal, closeModal } from '../../helpers/modal.ts';
 import useApi from '../../composables/api';
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import useNotify from '../../composables/notify.ts';
+import Pagination from '../../components/Pagination.vue';
+import usePagination from '../../composables/pagination.ts';
+import { onMounted, ref } from 'vue';
 
-const { getResource, postResource } = useApi();
+const query = ref<string>('');
+const {
+  limitPage: limit,
+  result,
+  totalData,
+  currentPage,
+  totalPage,
+  pageList,
+  search,
+  isFirstPage,
+  isLastPage,
+  endNumber,
+  nextPage,
+  prevPage,
+  goToPage,
+  fetchData,
+  changeLimit,
+  startNumber
+} = usePagination("/api/social/media/list", '', query);
+
+const { postResource } = useApi();
+const { notifySuccess } = useNotify();
 
 const schema = yup.object().shape({
   social_media: yup.string().required('Nama sosial media harus diisi').min(3, 'Nama social media minimal 3').max(50, 'Nama sosial media maksimal 50 karakter')
@@ -166,13 +161,20 @@ const { meta } = useForm({
   }
 });
 
-const { value: social_media, meta: social_media_meta } = useField<string>('social_media');
+const { value: social_media, errorMessage: social_media_message } = useField<string>('social_media');
 
 const onSave = async () => {
   const data = {
     name: social_media.value
   };
   closeModal();
-  const response = await postResource('/api/social/media/create', data);
+  const response: any = await postResource('/api/social/media/create', data);
+  if (response.data) {
+    notifySuccess(response.data.message);
+  }
 };
+
+onMounted(() => {
+  fetchData();
+});
 </script>
