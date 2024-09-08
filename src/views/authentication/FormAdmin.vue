@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="mt-5">
+    <div class="mt-5 w-full">
       <img class="mx-auto w-40" src="/assets/images/logo.png" alt="Logo" />
       <h1 class="text-2xl text-center font-bold py-1">Masuk Sekarang</h1>
       <p class="text-center text-gray-500 text-sm mb-8">
@@ -11,17 +11,16 @@
           <div>
             <label for="email" class="text-sm mb-2 dark:text-white hidden">Email</label>
             <div class="relative">
-              <input type="email" id="email" name="email" class="form-control border-1" required
-                placeholder="Masukkan email anda" v-model="email" :class="{ 'form-control-failed': emailError }" />
-              <div v-if="emailError" class="pt-2 text-xs text-red-500">{{ emailError }}</div>
+              <input type="email" id="email" name="email" class="form-control border-1" placeholder="Masukkan email anda" v-model="email" :class="{ 'form-control-failed': emailError && metaEmail.touched }" @blur="metaEmail.touched = true">
+              <div v-if="emailError && metaEmail.touched" class="pt-2 text-xs text-red-500">{{ emailError }}</div>
             </div>
           </div>
           <div>
             <label for="password" class="text-sm dark:text-white hidden">Nomor</label>
-            <input type="password" id="password" name="password" class="form-control border-1" required
+            <input type="password" id="password" name="password" class="form-control border-1"
               placeholder="Masukkan password anda" v-model="password"
-              :class="{ 'form-control-failed': passwordError }" />
-            <div v-if="passwordError" class="pt-2 text-xs text-red-500">{{ passwordError }}</div>
+              :class="{ 'form-control-failed': passwordError && metaPassword.touched }" @blur="metaPassword.touched = true">
+            <div v-if="passwordError && metaPassword.touched" class="pt-2 text-xs text-red-500">{{ passwordError }}</div>
           </div>
           <button type="button"
             class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-primary focus:outline-none focus:divide-opacity-95 disabled:opacity-50"
@@ -73,8 +72,8 @@ const { meta } = useForm({
   },
 });
 
-const { value: email, errorMessage: emailError } = useField<string>('email');
-const { value: password, errorMessage: passwordError } = useField<string>('password');
+const { value: email, meta: metaEmail,  errorMessage: emailError } = useField<string>('email');
+const { value: password, meta: metaPassword , errorMessage: passwordError } = useField<string>('password');
 
 const tryLogin = async () => {
   try {
