@@ -5,7 +5,6 @@ export default function useApi() {
   const baseURL = import.meta.env.VITE_API_URL;
   const { notifyError } = useNotify();
   async function request(method: string, url: string, body?: any) {
-    return new Promise(async (resolve, reject) => {
       try {
         const response = await fetch(`${baseURL}${url}`, {
           method,
@@ -24,13 +23,10 @@ export default function useApi() {
           }
           throw new Error(data.message || "Something went wrong");
         }
-
-        resolve(data);
+        return data;
       } catch (error: any) {
         notifyError(error.message);
-        reject(error);
       }
-    });
   }
 
   async function getResource(url: string) {

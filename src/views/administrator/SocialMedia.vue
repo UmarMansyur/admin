@@ -1,14 +1,7 @@
 <template>
   <h4 class="text-4xl font-bold my-3">Sosial Media</h4>
   <div class="sm:text-end">
-    <button type="button" class="inline-flex items-center gap-x-2 bg-primary rounded-xl p-3 text-sm text-white"
-      @click="toggleModal('modal-social-media')">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        class="size-4">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-      </svg>
-      Tambah Sosial Media
-    </button>
+
   </div>
   <Modal modal-id="modal-social-media" title="Tambah/Ubah Sosial Media">
     <label for="social-media" class="block text-sm mb-3">Sosial Media: </label>
@@ -25,9 +18,10 @@
       </button>
     </div>
   </Modal>
+  <ConfirmModal @delete="getDelete" :message="message" :title="title"/>
   <div class="bg-white mt-5">
     <div class="flex flex-col">
-      <div class="-m-1.5 overflow-x-auto">
+      <div class="-m-1.5 overflow-x-auto flex">
         <div class="p-1.5 min-w-full inline-block align-middle">
           <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
             <div class="py-3 px-4 flex items-center justify-between">
@@ -35,7 +29,7 @@
                 <label class="sr-only">Cari</label>
                 <input type="text" name="hs-table-with-pagination-search" id="hs-table-with-pagination-search"
                   class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  placeholder="Masukkan kata kunci ..." />
+                  placeholder="Masukkan kata kunci ..." v-model="query" @change="search" />
                 <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                   <svg class="size-4 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24"
                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -45,13 +39,25 @@
                   </svg>
                 </div>
               </div>
-
+              <button type="button"
+                class="inline-flex items-center gap-x-2 bg-primary rounded-xl p-3 text-sm text-white"
+                @click="toggleModal('modal-social-media')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-4">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Tambah Sosial Media
+              </button>
             </div>
 
             <div class="overflow-hidden">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead class="bg-gray-50 dark:bg-neutral-700">
                   <tr>
+                    <th scope="col"
+                      class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                      No</th>
                     <th scope="col"
                       class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                       Sosial Media</th>
@@ -65,25 +71,28 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                   <tr class="bg-white dark:bg-neutral-800" v-for="(item, i) in result" :key="item.id">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium w-14">
                       {{ startNumber + i }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       {{ item.name }}
                     </td>
                     <td class="px-6 py-4 flex whitespace-nowrap text-sm font-medium ">
-                      <span
-                        class="inline-flex mx-auto items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium" :class="{
+                      <button type="button"
+                        class="inline-flex mx-auto items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium"
+                        :class="{
                           'bg-green-100 text-green-800': item.status === 1,
                           'bg-red-100 text-red-800': item.status === 0
-                        }">
-                        <span class="size-1.5 inline-block rounded-full" :class="item.status === 1 ? 'bg-green-500' : 'bg-red-500'"></span>
+                        }" @click="changeStatus(item)">
+                        <span class="size-1.5 inline-block rounded-full"
+                          :class="item.status === 1 ? 'bg-green-500' : 'bg-red-500'"></span>
                         {{ item.status === 1 ? 'Aktif' : 'Tidak Aktif' }}
-                      </span>
+                      </button>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                       <button type="button"
-                        class="inline-flex items-center gap-x-2 me-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-warning">
+                        class="inline-flex items-center gap-x-2 me-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-warning"
+                        @click="editData(item)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" class="size-3">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -91,7 +100,8 @@
                         </svg>
                       </button>
                       <button type="button"
-                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-danger">
+                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-danger"
+                        @click="deleteData(item.id)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" class="size-3">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -100,11 +110,21 @@
                       </button>
                     </td>
                   </tr>
+                  <tr v-if="result.length === 0">
+                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium" colspan="4">Data tidak ditemukan
+                    </td>
+                  </tr>
                 </tbody>
               </table>
+              <div class="alert bg-blue-600 text-white p-5 mt-3">
+                <i class="bx bx-info-circle me-2"></i>
+                Jika anda ingin menghapus data, pastikan data tersebut tidak digunakan pada data lainnya. Jika anda
+                yakin bahwa data tersebut tidak digunakan pada data lainnya, silahkan edit statusnya menjadi non aktif
+                terlebih dahulu.
+              </div>
             </div>
             <div class="flex p-4 text-end">
-              <Pagination :limit="limit" :next-page="nextPage" :prev-page="prevPage" :pages="pageList"
+              <Pagination :limit="limit" :next-page="nextPage" :prev-page="prevPage" :pages="pageList" 
                 :total="totalData" :current-page="currentPage" :go-to-page="goToPage" :last-page="totalPage"
                 :first-page="startNumber" :start-data="startNumber" :end-data="endNumber" v-if="result.length > 0" />
             </div>
@@ -112,7 +132,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -126,6 +145,7 @@ import useNotify from '../../composables/notify.ts';
 import Pagination from '../../components/Pagination.vue';
 import usePagination from '../../composables/pagination.ts';
 import { onMounted, ref } from 'vue';
+import ConfirmModal from '../../components/ConfirmModal.vue';
 
 const query = ref<string>('');
 const {
@@ -136,18 +156,15 @@ const {
   totalPage,
   pageList,
   search,
-  isFirstPage,
-  isLastPage,
   endNumber,
   nextPage,
   prevPage,
   goToPage,
   fetchData,
-  changeLimit,
   startNumber
-} = usePagination("/api/social/media/list", '', query);
+} = usePagination("/social/media/list", '', query);
 
-const { postResource } = useApi();
+const { postResource, deleteResource, putResource } = useApi();
 const { notifySuccess } = useNotify();
 
 const schema = yup.object().shape({
@@ -165,14 +182,84 @@ const { value: social_media, errorMessage: social_media_message } = useField<str
 
 const onSave = async () => {
   const data = {
-    name: social_media.value
+    name: social_media.value,
+    status: detail.value.status === 1 ? 1 : 0
   };
   closeModal();
-  const response: any = await postResource('/api/social/media/create', data);
+  let response: any;
+  if(id.value > 0) {
+    response = await putResource(`/social/media/${id.value}/update`, data);
+  } else {
+    response = await postResource('/social/media/create', data);
+  }
   if (response.data) {
-    notifySuccess(response.data.message);
+    notifySuccess(response.message);
+  }
+  await fetchData();
+};
+
+
+const id = ref<number>(0);
+const deleteClick = ref<boolean>(false);
+const getDelete = async (value: any) => {
+  if (value) {
+   if(deleteClick.value) {
+     await deleteSocialMedia();
+   } else {
+      await updateStatus();
+   }
   }
 };
+
+const editData = (value: any) => {
+  social_media.value = value.name;
+  id.value = value.id;
+  toggleModal('modal-social-media');
+};
+
+
+const deleteData = (value: number) => {
+  id.value = value;
+  deleteClick.value = true;
+  toggleModal('delete-confirm');
+};
+
+const deleteSocialMedia = async () => {
+  const response: any = await deleteResource(`/social/media/${id.value}/destroy`);
+  if (response.data) {
+    notifySuccess(response.message);
+    await fetchData();
+    deleteClick.value = false;
+    id.value = 0;
+  }
+};
+
+
+const message = ref<string>('Apakah anda yakin ingin menghapus data ini?');
+const title = ref<string>('Hapus Data');
+
+const changeStatus = async (value: any) => {
+  id.value = value.id;
+  deleteClick.value = false;
+  message.value = value.status === 1 ? 'Apakah anda yakin ingin menonaktifkan data ini?' : 'Apakah anda yakin ingin mengaktifkan data ini?';
+  title.value = value.status === 1 ? 'Non Aktifkan Data' : 'Aktifkan Data';
+  toggleModal('delete-confirm');
+  detail.value = value;
+};
+
+const detail = ref<any>({});
+
+const updateStatus = async () => {
+  const response: any = await putResource(`/social/media/${detail.value.id}/update`, {
+    name: detail.value.name,
+    status: detail.value.status === 1 ? 0 : 1
+  });
+  if (response.data) {
+    notifySuccess(response.message);
+    await fetchData();
+  }
+  detail.value = {};
+}
 
 onMounted(() => {
   fetchData();

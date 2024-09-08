@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center w-full">
-    <div class="text-xs">
+    <div class="text-sm">
       Menampilkan <span class="fw-semibold">{{ `${props.startData} - ${props.endData}` }}</span> dari
         <span class="fw-semibold">{{ props.total }}</span> data
     </div>

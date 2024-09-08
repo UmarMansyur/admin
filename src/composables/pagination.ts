@@ -70,10 +70,10 @@ export default function usePagination(path: string, q?:any ,query?: any) {
       query.push(`${path}?page=${currentPage.value}&paginate=${limitPage.value}`);
     }
     const response:any = await getResource(query[0]);
-    console.log(response.data.data.current);
+    limitPage.value = response.data.per_page;
     result.value = response.data.data;
-    totalPage.value = response.data.total;
-    totalData.value = Math.ceil(response.data.total / limitPage.value);
+    totalPage.value = Math.ceil(response.data.total / limitPage.value);
+    totalData.value = response.data.total;
     currentPage.value = Number(response.data.current_page);
     generateButtons();
     startNumber.value = (currentPage.value - 1) * limitPage.value + 1;
@@ -90,16 +90,14 @@ export default function usePagination(path: string, q?:any ,query?: any) {
       search.push(`${path}?page=${currentPage.value}&paginate=${limitPage.value}&search=${query.value}`);
     }
     const response = await getResource(search[0]);
-    const data: any = await response;
-    result.value = data.data.data;
-    totalPage.value = data.data.totalPage;
-    totalData.value = data.data.totalRows;
-    currentPage.value = data.data.pageNumber;
-
+    limitPage.value = response.data.per_page;
+    result.value = response.data.data;
+    totalPage.value = Math.ceil(response.data.total / limitPage.value);
+    totalData.value = response.data.total;
+    currentPage.value = Number(response.data.current_page);
     generateButtons();
     startNumber.value = (currentPage.value - 1) * limitPage.value + 1;
-
-
+    endNumber.value = totalData.value
   }
 
   function isLastPage() {
