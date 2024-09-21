@@ -29,6 +29,29 @@ export default function useApi() {
       }
   }
 
+  async function requestFormData(method: string, url: string, body?: any) {
+    try {
+      const formData = new FormData();
+      for (const key in body) {
+        formData.append(key, body[key]);
+      }
+      const response = await fetch(`${baseURL}${url}`, {
+        method,
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token") || "",
+        },
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+      return data;
+    } catch (error: any) {
+      notifyError(error.message);
+    }
+  }
+
   async function getResource(url: string) {
     return await request("GET", url);
   }
@@ -45,10 +68,20 @@ export default function useApi() {
     return await request("DELETE", url);
   }
 
+  async function postResourceFormData(url: string, body: any) {
+    return await requestFormData("POST", url, body);
+  }
+
+  async function putResourceFormData(url: string, body: any) {
+    return await requestFormData("PUT", url, body);
+  }
+
   return {
     getResource,
     postResource,
     putResource,
     deleteResource,
+    postResourceFormData,
+    putResourceFormData,
   };
 }

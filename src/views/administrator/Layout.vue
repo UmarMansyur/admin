@@ -33,13 +33,6 @@ declare const $: any;
 </script>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import TheNavbarAdmin from '../../components/TheNavbarAdmin.vue';
 import TheSidebarAdmin from '../../components/TheSidebarAdmin.vue';
-
-onMounted(() => {
-  document.body.style.fontFamily = 'Inter';
-  // metismenu
-  $('#sidebar').metisMenu();
-});
 </script>

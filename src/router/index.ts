@@ -2,17 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'Login',
-    path: '/login',
-    meta: {
-      title: 'Login',
-      isAuth: false,
-    },
-    component: () => import('../views/authentication/Login.vue'),
-  },
-  {
     name: 'Login Administrator',
-    path: '/admin/login',
+    path: '/login',
     meta: {
       title: 'Login',
       isAuth: false,
@@ -36,6 +27,15 @@ const routes: RouteRecordRaw[] = [
       isAuth: true,
     },
     component: () => import('../views/administrator/Setting.vue'),
+  },
+  {
+    name: 'Not Found',
+    path: '/:pathMatch(.*)*',
+    meta: {
+      title: 'Not Found',
+      isAuth: false,
+    },
+    component: () => import('../views/error/404.vue'),
   }
 ]
 
@@ -48,35 +48,11 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   document.title = to.meta.title as string + ' | Publish Agency';
-  if(to.meta.isAuth && !sessionStorage.getItem('token')) {
-    next({ name: 'Login' });
+  if(to.name !== 'Login Administrator' && !sessionStorage.getItem('token')) {
+    if(to.meta.isAuth) next({ name: 'Login Administrator' });
+    else next();
     return;
   }
-  if(!to.meta.isAuth && sessionStorage.getItem('token')) {
-    next();
-    return;
-  }
-
-  if(to.name !== 'Login' && to.name !== 'Login Administrator' && !sessionStorage.getItem('token')) {
-    next({ name: 'Login' });
-    return;
-  }
-
-  if(to.name === 'Login' && sessionStorage.getItem('token')) {
-    next({ name: 'Dashboard Admin' });
-    return;
-  }
-
-  if(to.name === 'Login Administrator' && sessionStorage.getItem('token')) {
-    next({ name: 'Dashboard Admin' });
-    return;
-  }
-
-  if(to.name !== 'Login' && to.name !== 'Login Administrator' && sessionStorage.getItem('token')) {
-    next();
-    return;
-  }
-
   next();
 });
 

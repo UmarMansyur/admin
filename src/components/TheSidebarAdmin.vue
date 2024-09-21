@@ -1,11 +1,11 @@
 <template>
   <aside id="sidebar-menu-admin"
-    class="fixed top-0 left-0 z-40 w-72 h-screen pt-[70px] -translate-x-full bg-white border-r border-b border-gray-200 sm:translate-x-0 transition-all duration-300 ease-in-out text-sm"
+    class="fixed top-0 left-0 z-40 w-72 h-screen pt-[70px] -translate-x-full bg-white border-r border-b border-gray-200 sm:translate-x-0 transition-all duration-300 ease-in-out text-sm shadow-sm"
     >
     <div
       class="h-full px-3 pb-4 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 pt-8 text-neutral-400 bg-white">
-      <ul class="space-y-2">
-        <li class="text-sidebar uppercase text-[11px]">
+      <ul class="space-y-2 text-black text-[16px]">
+        <li class="text-dark uppercase font-bold text-[12px]">
           Menu
         </li>
         <li class="hover:bg-primary hover:text-white rounded-lg py-3">
@@ -19,7 +19,7 @@
             <span class="ms-3">Dashboard</span>
           </a>
         </li>
-        <li class="text-sidebar uppercase text-[11px]">
+        <li class="text-sidebar uppercase font-bold text-[12px]">
           Collaboration
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -42,7 +42,7 @@
             <span class="ms-3">Partner</span>
           </a>
         </li>
-        <li class="text-sidebar uppercase text-[11px]">
+        <li class="text-sidebar uppercase font-bold text-[12px]">
           Marketing
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -57,11 +57,7 @@
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
           <a href="#" class="flex items-center px-3 rounded-lg group">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-            </svg>
+            <i class="ti ti-affiliate text-lg"></i>
             <span class="ms-3">Affiliate Campaign</span>
           </a>
         </li>
@@ -75,7 +71,7 @@
             <span class="ms-3">KOL Campaign</span>
           </a>
         </li>
-        <li class="text-sidebar uppercase text-[11px]">
+        <li class="text-sidebar uppercase font-bold text-[12px]">
           Recommendation
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -98,7 +94,7 @@
             <span class="ms-3">KOL Recommendation</span>
           </a>
         </li>
-        <li class="text-sidebar uppercase text-[11px]">
+        <li class="text-sidebar uppercase font-bold text-[12px]">
           Communication
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white">
@@ -111,7 +107,7 @@
             <span class="ms-3">Blast Message</span>
           </a>
         </li>
-        <li class="text-sidebar uppercase text-[11px]">
+        <li class="text-sidebar uppercase font-bold text-[12px]">
           Configuration
         </li>
         <li class="hover:bg-primary rounded-lg py-3 hover:text-white" :class="{ 'bg-primary text-white': $route.path === '/admin/setting' }">
@@ -130,3 +126,9 @@
     </div>
   </aside>
 </template>
+
+<style scoped lang="css">
+.text-sidebar {
+  color: #000 !important;
+}
+</style>

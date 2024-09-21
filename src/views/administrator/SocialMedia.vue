@@ -1,34 +1,36 @@
 <template>
-  <h4 class="text-4xl font-bold my-3">Sosial Media</h4>
-  <div class="sm:text-end">
-
-  </div>
-  <Modal modal-id="modal-social-media" title="Tambah/Ubah Sosial Media">
-    <label for="social-media" class="block text-sm mb-3">Sosial Media: </label>
-    <input type="text" id="social-media" name="social-media" class="form-control"
-      placeholder="Masukkan nama sosial media" v-model="social_media"
-      :class="{ 'form-control-failed': social_media_message }" />
-    <span class="text-sm text-danger py-1" v-if="social_media_message">{{ social_media_message }}</span>
-    <div class="flex justify-between">
-      <button type="button" class="bg-light text-white rounded-lg p-3 mt-3" @click="closeModal">
-        <i class="bx bx-x"></i> Batal
-      </button>
-      <button type="button" class="bg-primary text-white rounded-lg p-3 mt-3" @click="onSave" :disabled="!meta.valid">
-        <i class="bx bx-send"></i> Simpan
-      </button>
-    </div>
-  </Modal>
-  <ConfirmModal @delete="getDelete" :message="message" :title="title"/>
-  <div class="bg-white mt-5">
+  <div class="hidden p-4 bg-white rounded-lg" id="social-media" role="tabpanel" aria-labelledby="social-media-tab">
+    <h4 class="text-2xl font-bold">Sosial Media</h4>
+    <p class="text-sm text-gray-500 mb-3">
+      Sosial media adalah platform online yang digunakan untuk dipilih oleh creator maupun partner untuk menampilkan
+      tugas maupun hasil kerjaan mereka.
+    </p>
+    <hr>
+    <Modal modal-id="modal-social-media" title="Tambah/Ubah Sosial Media">
+      <label for="social-media" class="block mb-3">Sosial Media: </label>
+      <input type="text" id="social-media" name="social-media" class="form-control"
+        placeholder="Masukkan nama sosial media" v-model="social_media"
+        :class="{ 'form-control-failed': social_media_message }" />
+      <span class="text-danger py-1" v-if="social_media_message">{{ social_media_message }}</span>
+      <div class="flex justify-between">
+        <button type="button" class="bg-light text-white rounded-lg p-3 mt-3" @click="closeModal">
+          <i class="bx bx-x"></i> Batal
+        </button>
+        <button type="button" class="bg-primary text-white rounded-lg p-3 mt-3" @click="onSave" :disabled="!meta.valid">
+          <i class="bx bx-send"></i> Simpan
+        </button>
+      </div>
+    </Modal>
+    <ConfirmModal @delete="getDelete" :message="message" :title="title" confirm-id="hapus-social-media" />
     <div class="flex flex-col">
       <div class="-m-1.5 overflow-x-auto flex">
         <div class="p-1.5 min-w-full inline-block align-middle">
-          <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-            <div class="py-3 px-4 flex items-center justify-between">
-              <div class="relative max-w-xs">
+          <div class="rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+            <div class="py-3 flex items-center justify-between">
+              <div class="relative">
                 <label class="sr-only">Cari</label>
                 <input type="text" name="hs-table-with-pagination-search" id="hs-table-with-pagination-search"
-                  class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  class="py-2 px-3 ps-9 inline-block border-gray-200 shadow-sm rounded-lg focus:z-10 focus:border-primary focus:ring-primary disabled:opacity-10 disabled:pointer-events-none"
                   placeholder="Masukkan kata kunci ..." v-model="query" @change="search" />
                 <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                   <svg class="size-4 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -39,19 +41,18 @@
                   </svg>
                 </div>
               </div>
-              <button type="button"
-                class="inline-flex items-center gap-x-2 bg-primary rounded-xl p-3 text-sm text-white"
+              <button type="button" class="inline-flex items-center gap-x-2 bg-primary rounded-xl p-3 text-white"
                 @click="toggleModal('modal-social-media')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="size-4">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                Tambah Sosial Media
+                <span class="hidden sm:block">Tambah Sosial Media</span>
               </button>
             </div>
 
-            <div class="overflow-hidden">
+            <div class="overflow-auto">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead class="bg-gray-50 dark:bg-neutral-700">
                   <tr>
@@ -71,13 +72,13 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                   <tr class="bg-white dark:bg-neutral-800" v-for="(item, i) in result" :key="item.id">
-                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium w-14">
+                    <td class="px-6 py-4 text-center whitespace-nowrap font-medium w-14">
                       {{ startNumber + i }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td class="px-6 py-4 whitespace-nowrap font-medium">
                       {{ item.name }}
                     </td>
-                    <td class="px-6 py-4 flex whitespace-nowrap text-sm font-medium ">
+                    <td class="px-6 py-4 flex whitespace-nowrap font-medium ">
                       <button type="button"
                         class="inline-flex mx-auto items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium"
                         :class="{
@@ -89,9 +90,9 @@
                         {{ item.status === 1 ? 'Aktif' : 'Tidak Aktif' }}
                       </button>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                    <td class="px-6 py-4 whitespace-nowrap text-center font-medium">
                       <button type="button"
-                        class="inline-flex items-center gap-x-2 me-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-warning"
+                        class="inline-flex items-center gap-x-2 me-2 font-semibold rounded-lg border border-transparent text-white p-2 bg-warning"
                         @click="editData(item)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" class="size-3">
@@ -100,7 +101,7 @@
                         </svg>
                       </button>
                       <button type="button"
-                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white p-2 bg-danger"
+                        class="inline-flex items-center gap-x-2 font-semibold rounded-lg border border-transparent text-white p-2 bg-danger"
                         @click="deleteData(item.id)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" class="size-3">
@@ -111,20 +112,22 @@
                     </td>
                   </tr>
                   <tr v-if="result.length === 0">
-                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium" colspan="4">Data tidak ditemukan
+                    <td class="px-6 py-4 text-center whitespace-nowrap font-medium" colspan="4">Data tidak
+                      ditemukan
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="alert bg-blue-600 text-white p-5 mt-3">
-                <i class="bx bx-info-circle me-2"></i>
-                Jika anda ingin menghapus data, pastikan data tersebut tidak digunakan pada data lainnya. Jika anda
-                yakin bahwa data tersebut tidak digunakan pada data lainnya, silahkan edit statusnya menjadi non aktif
-                terlebih dahulu.
-              </div>
+            </div>
+            <div class="alert w-full bg-blue-600 text-white p-5 mt-3">
+              <i class="bx bx-info-circle me-2"></i>
+              Jika anda ingin menghapus data, pastikan data tersebut tidak digunakan pada data lainnya. Jika anda
+              yakin bahwa data tersebut tidak digunakan pada data lainnya, silahkan edit statusnya menjadi non
+              aktif
+              terlebih dahulu.
             </div>
             <div class="flex p-4 text-end">
-              <Pagination :limit="limit" :next-page="nextPage" :prev-page="prevPage" :pages="pageList" 
+              <Pagination :limit="limit" :next-page="nextPage" :prev-page="prevPage" :pages="pageList"
                 :total="totalData" :current-page="currentPage" :go-to-page="goToPage" :last-page="totalPage"
                 :first-page="startNumber" :start-data="startNumber" :end-data="endNumber" v-if="result.length > 0" />
             </div>
@@ -138,7 +141,7 @@
 <script setup lang="ts">
 import Modal from '../../components/Modal.vue';
 import { toggleModal, closeModal } from '../../helpers/modal.ts';
-import useApi from '../../composables/api';
+import useApi from '../../composables/api.ts';
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import useNotify from '../../composables/notify.ts';
@@ -187,7 +190,7 @@ const onSave = async () => {
   };
   closeModal();
   let response: any;
-  if(id.value > 0) {
+  if (id.value > 0) {
     response = await putResource(`/social/media/${id.value}/update`, data);
   } else {
     response = await postResource('/social/media/create', data);
@@ -203,11 +206,11 @@ const id = ref<number>(0);
 const deleteClick = ref<boolean>(false);
 const getDelete = async (value: any) => {
   if (value) {
-   if(deleteClick.value) {
-     await deleteSocialMedia();
-   } else {
+    if (deleteClick.value) {
+      await deleteSocialMedia();
+    } else {
       await updateStatus();
-   }
+    }
   }
 };
 
@@ -221,7 +224,7 @@ const editData = (value: any) => {
 const deleteData = (value: number) => {
   id.value = value;
   deleteClick.value = true;
-  toggleModal('delete-confirm');
+  toggleModal('hapus-social-media');
 };
 
 const deleteSocialMedia = async () => {
@@ -243,7 +246,7 @@ const changeStatus = async (value: any) => {
   deleteClick.value = false;
   message.value = value.status === 1 ? 'Apakah anda yakin ingin menonaktifkan data ini?' : 'Apakah anda yakin ingin mengaktifkan data ini?';
   title.value = value.status === 1 ? 'Non Aktifkan Data' : 'Aktifkan Data';
-  toggleModal('delete-confirm');
+  toggleModal('hapus-social-media');
   detail.value = value;
 };
 
@@ -259,9 +262,11 @@ const updateStatus = async () => {
     await fetchData();
   }
   detail.value = {};
-}
+};
 
-onMounted(() => {
-  fetchData();
+
+
+onMounted(async () => {
+  await fetchData();
 });
 </script>
