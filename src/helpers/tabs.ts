@@ -28,16 +28,6 @@ class TabsOption {
         defaultTabId: this.tabElement[0].id,
         activeClasses: "border-b border-primary text-primary",
         inactiveClasses: "hover:border-b hover:border-primary hover:text-primary",
-        onShow(tabs, tab) {
-          // tabs._activeTab.targetEl.classList.remove('hidden');
-          // tabs._items.forEach((t) => {
-          //   if (t.id !== tab.id) {
-          //     t.targetEl.classList.add('hidden');
-          //   } else {
-          //     t.targetEl.classList.remove('hidden');
-          //   }
-          // });
-        },
       };
     } else {
       this.tabOptions = tabOptions;
